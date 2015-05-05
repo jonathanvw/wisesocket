@@ -40,7 +40,7 @@ function togglePower() {
 io.sockets.on('connection', function (socket) {
   socket.on('button update event', function (data) {
     console.log(data.status);
-    if(data.status=='ON'){
+    if(data.status=='OFF'){
 	gpio.setup(7, gpio.DIR_OUT, turnOn);
     }else{
 	gpio.setup(7, gpio.DIR_OUT, turnOff);
