@@ -1,0 +1,27 @@
+<html>
+<head></head>
+<body>
+<hi>Test Node.js with socket.io</hi>
+<form action="">
+<input type="button" id="buttonToggle" value="ON" style="color:blue"
+       onclick="toggle(this);">
+</form>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect(document.location.href);
+
+function toggle(button)
+{
+ if(document.getElementById("buttonToggle").value=="OFF"){
+  document.getElementById("buttonToggle").value="ON";
+  socket.emit('button update event', { status: 'OFF' });
+ }
+ else if(document.getElementById("buttonToggle").value=="ON"){
+  document.getElementById("buttonToggle").value="OFF";
+  socket.emit('button update event', { status: 'ON' });
+ }
+}
+</script>
+
+</body>
+</html>
