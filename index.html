@@ -3,8 +3,16 @@
 <body>
 <hi>Test Node.js with socket.io</hi>
 <form action="">
+<div>
+<label>Socket #1</label>
 <input type="button" id="buttonToggle" value="ON" style="color:blue"
-       onclick="toggle(this);">
+       onclick="toggle(this);" data-emit-handle="socket1Toggle">
+</div>
+<div>
+<label>Socket #2</label>
+<input type="button" id="buttonToggle2" value="ON" style="color:blue"
+       onclick="toggle(this);" data-emit-handle="socket2Toggle">
+</div>
 </form>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -12,13 +20,13 @@ var socket = io.connect(document.location.href);
 
 function toggle(button)
 {
- if(document.getElementById("buttonToggle").value=="OFF"){
-  document.getElementById("buttonToggle").value="ON";
-  socket.emit('button update event', { status: 'OFF' });
+ if(button.value=="OFF"){
+  button.value="ON";
+  socket.emit(button.dataset.emitHandle, { status: 'OFF' });
  }
- else if(document.getElementById("buttonToggle").value=="ON"){
-  document.getElementById("buttonToggle").value="OFF";
-  socket.emit('button update event', { status: 'ON' });
+ else if(button.value=="ON"){
+  button.value="OFF";
+  socket.emit(button.dataset.emitHandle, { status: 'ON' });
  }
 }
 </script>

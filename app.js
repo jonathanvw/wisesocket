@@ -33,12 +33,23 @@ function turnOff() {
     });
     console.log("now its off");
 }
-function togglePower() {
-    
+
+
+function turnOn11() {
+    gpio.write(11, true, function(err) {
+	if (err) throw err;
+    });
+    console.log("now its on");
+}
+function turnOff11() {
+    gpio.write(11, false, function(err) {
+	if (err) throw err;
+    });
+    console.log("now its off");
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.on('button update event', function (data) {
+  socket.on('socket1Toggle', function (data) {
     console.log(data.status);
     if(data.status=='OFF'){
 	gpio.setup(7, gpio.DIR_OUT, turnOn);
@@ -46,4 +57,16 @@ io.sockets.on('connection', function (socket) {
 	gpio.setup(7, gpio.DIR_OUT, turnOff);
     }
   });
+  socket.on('socket2Toggle', function (data) {
+    console.log(data.status);
+    if(data.status=='OFF'){
+	gpio.setup(11, gpio.DIR_OUT, turnOn11);
+    }else{
+	gpio.setup(11, gpio.DIR_OUT, turnOff11);
+    }
+  });
 });
+
+
+
+
