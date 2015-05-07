@@ -1,13 +1,15 @@
 //$ npm install socket.io
 
-var app = require('http').createServer(handler)
+var http = require('http')
   , io = require('socket.io').listen(app)
   , fs = require('fs')
   , gpio = require('rpi-gpio')
+  , express = require('express');
 
-console.log("Webserver Running...");
-app.listen(8080);
+var app = express();
+var port = 8080;
 
+app.use(express.static(__dirname + '/public'));
 
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
@@ -67,6 +69,8 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-
+http.createServer(app).listen(port);
+console.log("Server is running on port " + port);
+~
 
 
