@@ -19,6 +19,8 @@
         </style>
         <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/font-awesome-animation.min.css">
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
@@ -62,7 +64,7 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><i class="fa fa-bolt ui-title-icon"></i></p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
@@ -71,15 +73,18 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4 col-md-offset-4 text-center">
-          <h2>Heading</h2>
+          <h2>Green Socket</h2>
           <form action="">
             <div>
-              <label>Socket #1</label>
-              <input type="button" id="buttonToggle" value="ON" onclick="toggle(this);" data-emit-handle="socket1Toggle" class="btn btn-primary btn-lg">
-            </div>
-            <div>
-              <label>Socket #2</label>
-              <input type="button" id="buttonToggle2" value="ON" onclick="toggle(this);" data-emit-handle="socket2Toggle" class="btn btn-primary btn-lg">
+              <section title=".slideToggle">
+                <!-- .slideThree -->
+                <i class="fa fa-child ui-toggle-icon faa-vertical animated"></i>
+                <div class="slideToggle">
+                  <input type="checkbox" value="ON" id="greenSocket" name="greenSocket" checked onclick="toggle(this);" data-emit-handle="socket1Toggle"/>
+                  <label for="greenSocket"></label>
+                </div>
+                <!-- end .slideThree -->
+              </section>
             </div>
           </form>
         </div>
@@ -98,7 +103,9 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io.connect(document.location.href);
+      //TODO var socket = io.connect(document.location.href);
+
+      //TODO onInit get current state of socket (on/off) and set its value to match
 
       function toggle(button)
       {
