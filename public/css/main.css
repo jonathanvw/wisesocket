@@ -1,5 +1,6 @@
-/* $activeColor: #c0392b; //red */
-/* $background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/13460/dark_wall.png'); */
+/*    #3B2314 Dark Brown  */
+/*    #705038 Light Brown */
+
 * {
   box-sizing: border-box;
 }
@@ -12,10 +13,10 @@ body {
 
 /* .slideToggle */
 .slideToggle {
+  display: inline-block;
   width: 160px;
   height: 52px;
   background: #333;
-  margin: 40px auto;
   position: relative;
   border-radius: 100px;
   box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.5), 0px 2px 0px rgba(255, 255, 255, 0.2);
@@ -67,12 +68,38 @@ body {
 
 /* icon styles */
 body .ui-toggle-icon{
-  color: #999;
-  font-size: 3em;
+  color: #D8D3D0;
+  font-size: 4em;
+  vertical-align: bottom;
 }
 
 body .ui-title-icon{
   color: #F7941E;
-  font-size: 4em;
+  font-size: 6em;
   text-align: center;
+}
+
+.jumbotron{
+    background: #FFF9F2;
+    position: relative;
+}
+
+.jumbotron .handle{
+    display: block;
+    width:100%;
+    height: 1.5vh;
+    background: #3B2314;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.jumbotron .handle:after{
+    content: "";
+    display: block;
+    width:10%;
+    height: 33.333%;
+    background: #705038;
+    margin: 0.5vh auto;
+    position: relative;
 }
