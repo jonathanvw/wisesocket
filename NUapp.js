@@ -2,62 +2,120 @@
   //, io = require('socket.io').listen(app)
   //, gpio = require('rpi-gpio')
 
-var http = require('http')
-  , express = require('express');
-
-var app = express();
+var http = require('http');
+var app = require('express.io')();
+var PythonShell = require('python-shell');
+app.http().io();
+var express = require('express');
 var port = 8080;
 
-app.use(express.static(__dirname + '/public'));
+// Setup the ready route, and emit talk event.
+app.io.route('ready', function(req) {
+    req.io.emit('talk', {
+        message: 'io event from an io route on the server'
+    })
+})
 
-/*
-function turnOn() {
-    gpio.write(7, true, function(err) {
-	if (err) throw err;
-    });
-    console.log("now its on");
-}
+app.use(express.static('public'));
 
-function turnOff() {
-    gpio.write(7, false, function(err) {
-	if (err) throw err;
-    });
-    console.log("now its off");
-}
+// Send the client html.
+app.get('/', function(req, res) {
+    res.sendfile(__dirname + '/public/index.html');
+})
+app.get('/js/main.js', function(req, res) {
+    res.sendfile(__dirname + '/public/js/main.js');
+})
+app.get('/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js', function(req, res) {
+    res.sendfile(__dirname + '/public/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js');
+})
+app.get('/js/vendor/jquery-1.11.2.min.js', function(req, res) {
+    res.sendfile(__dirname + '/public/js/vendor/jquery-1.11.2.min.js');
+})
+app.get('/js/vendor/bootstrap.min.js', function(req, res) {
+    res.sendfile(__dirname + '/public/js/vendor/bootstrap.min.js');
+})
+app.get('/css/bootstrap.min.css', function(req, res) {
+    res.sendfile(__dirname + '/public/css/bootstrap.min.css');
+})
+app.get('/css/bootstrap-theme.min.css', function(req, res) {
+    res.sendfile(__dirname + '/public/css/bootstrap-theme.min.css');
+})
+app.get('/css/main.css', function(req, res) {
+    res.sendfile(__dirname + '/public/css/main.css');
+})
+app.get('/css/font-awesome.min.css', function(req, res) {
+    res.sendfile(__dirname + '/public/css/font-awesome.min.css');
+})
+app.get('/css/font-awesome-animation.min.css', function(req, res) {
+    res.sendfile(__dirname + '/public/css/font-awesome-animation.min.css');
+})
+app.get('/img/wisesocket-logo.png', function(req, res) {
+    res.sendfile(__dirname + '/public/img/wisesocket-logo.png');
+})
+app.get('/fonts/fontawesome-webfont.eot?v=4.3.0', function(req, res) {
+    res.sendfile(__dirname + '/fonts/fontawesome-webfont.eot?v=4.3.0');
+})
+app.get('/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0', function(req, res) {
+    res.sendfile(__dirname + '/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0');
+})
+app.get('/fonts/fontawesome-webfont.woff2?v=4.3.0', function(req, res) {
+    res.sendfile(__dirname + '/fonts/fontawesome-webfont.woff2?v=4.3.0');
+})
+app.get('/fonts/fontawesome-webfont.woff?v=4.3.0', function(req, res) {
+    res.sendfile(__dirname + '/fonts/fontawesome-webfont.woff?v=4.3.0');
+})
+app.get('/fonts/fontawesome-webfont.ttf?v=4.3.0', function(req, res) {
+    res.sendfile(__dirname + '/fonts/fontawesome-webfont.ttf?v=4.3.0');
+})
+app.get('/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular', function(req, res) {
+    res.sendfile(__dirname + '/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular');
+})
 
-function turnOn11() {
-    gpio.write(11, true, function(err) {
-	if (err) throw err;
-    });
-    console.log("now its on");
-}
-
-function turnOff11() {
-    gpio.write(11, false, function(err) {
-	if (err) throw err;
-    });
-    console.log("now its off");
-}
-
-io.sockets.on('connection', function (socket) {
-  socket.on('socket1Toggle', function (data) {
-    console.log(data.status);
-    if(data.status=='OFF'){
-	gpio.setup(7, gpio.DIR_OUT, turnOn);
+app.io.route('socket1Toggle', function(data) {
+    console.log(data.data.status);
+    if(data.data.status =='ON'){
+      PythonShell.run('/ledoff.py', function(err){
+        if (err) console.log(err);
+        console.log('turned off');
+      });
     }else{
-	gpio.setup(7, gpio.DIR_OUT, turnOff);
+      PythonShell.run('/led.py', function(err){
+        if (err) console.log(err);
+        console.log('turned on');
+      });
     }
-  });
-  socket.on('socket2Toggle', function (data) {
-    console.log(data.status);
-    if(data.status=='OFF'){
-	gpio.setup(11, gpio.DIR_OUT, turnOn11);
-    }else{
-	gpio.setup(11, gpio.DIR_OUT, turnOff11);
-    }
-  });
 });
-*/
 
-http.createServer(app).listen(port);
+
+app.io.route('motionToggle', function(data) {
+    console.log("motion code behind");
+    console.log(data.data.status);
+    // turn default state to off
+    PythonShell.run('/ledoff.py', function(err){
+      //if (err) console.log(err);
+      console.log('motion turned off');
+    });
+
+    if(data.data.status =='ON'){
+      console.log("turning motion on");
+      PythonShell.run('/sensor.py', function(err){
+        //if (err) console.log(err);
+        console.log('motion sensing on');
+      });
+    }else{
+      console.log("turning things off");
+      // turn default state to off
+      PythonShell.run('/ledoff.py', function(err){
+        //if (err) console.log(err);
+        console.log('turned things off');
+      });
+      console.log("END:motion code behind");
+    }
+});
+
+
+app.listen(port);
+
+//app.use(express.static(__dirname + '/public'));
+
 console.log("Server is running on port " + port);

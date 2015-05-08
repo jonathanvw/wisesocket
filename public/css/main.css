@@ -6,7 +6,7 @@
 }
 
 body {
-  background: #3498db;
+  background: #FFFFFF;
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
 }
@@ -16,7 +16,7 @@ body {
   display: inline-block;
   width: 160px;
   height: 52px;
-  background: #333;
+  background: #3B2314;
   position: relative;
   border-radius: 100px;
   box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.5), 0px 2px 0px rgba(255, 255, 255, 0.2);
@@ -33,7 +33,7 @@ body {
 }
 .slideToggle:before {
   content: 'ON';
-  color: #27ae60;
+  color: #F7941E;
   position: absolute;
   left: 20px;
   z-index: 0;
@@ -50,8 +50,8 @@ body {
   left: 6px;
   z-index: 1;
   background: #fcfff4;
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: -webkit-linear-gradient(top, #fdfdfd 0%, #dfdfdf 40%, #ffffff 100%);
+  background: linear-gradient(to bottom, #fdfdfc 0%, #dfdfdf 40%, #ffffff 100%);
   border-radius: 100px;
   -webkit-transition: all 0.4s ease;
           transition: all 0.4s ease;
@@ -73,10 +73,15 @@ body .ui-toggle-icon{
   vertical-align: bottom;
 }
 
+body .ui-toggle-icon.active{
+  color: #F7941e;
+}
+
 body .ui-title-icon{
   color: #F7941E;
   font-size: 6em;
   text-align: center;
+  margin: 0.25em auto;
 }
 
 .jumbotron{
@@ -94,6 +99,7 @@ body .ui-title-icon{
     left: 0;
     right: 0;
 }
+
 .jumbotron .handle:after{
     content: "";
     display: block;
@@ -102,4 +108,16 @@ body .ui-title-icon{
     background: #705038;
     margin: 0.5vh auto;
     position: relative;
+}
+
+footer{
+    position: relative;
+}
+
+footer .logo{
+    width:80%;
+    max-width: 1200px;
+    margin: 35vh auto 0;
+    left: 0;
+    right: 0;
 }
